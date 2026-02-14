@@ -1,0 +1,60 @@
+name: trailmate
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  
+  # State Management, Navigation & Dependency Injection
+  get: ^4.6.6
+  smooth_page_indicator: ^2.0.1
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  
+  # Google Maps
+  google_maps_flutter: ^2.5.3
+  geolocator: ^11.0.0
+  geocoding: ^2.1.1
+  
+  # Date & Time
+  intl: ^0.19.0
+  
+  # HTTP & Networking
+  http: ^1.2.0
+  
+  # Permissions
+  permission_handler: ^11.2.0
+  
+  # Local Notifications
+  flutter_local_notifications: ^16.3.2
+  
+  # UI Components & Animations
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+  lottie: ^3.0.0
+  flutter_animate: ^4.5.0
+  google_fonts: ^6.1.0
+  
+  # Utilities
+  uuid: ^4.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
