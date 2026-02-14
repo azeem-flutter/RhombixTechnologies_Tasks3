@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:trailmate/core/widgets/DividerText/divider_text.dart';
 import 'package:trailmate/core/widgets/authText/auth_text.dart';
 import 'package:trailmate/core/widgets/socialButton/social_button.dart';
+import 'package:trailmate/navigation_menu.dart';
 import 'package:trailmate/views/auth/signup/signup.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -65,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => Get.to(NavigationMenu()),
                     child: const Text('Login'),
                   ),
                 ),
