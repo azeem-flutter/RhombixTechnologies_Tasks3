@@ -7,7 +7,7 @@ class SocialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 40,
+
       child: OutlinedButton(
         onPressed: () {},
         child: const Text('Continue with Google'),
