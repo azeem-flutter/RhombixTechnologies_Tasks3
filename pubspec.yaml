@@ -58,3 +58,21 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/animations/
+
+fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/font/Roboto_Condensed-Light.ttf
+          weight: 300
+        - asset: assets/font/Roboto_Condensed-Regular.ttf
+          weight: 400
+        - asset: assets/font/Roboto_Condensed-Italic.ttf
+          style: italic
+        - asset: assets/font/Roboto_Condensed-Medium.ttf
+          weight: 500
+        - asset: assets/font/Roboto_Condensed-MediumItalic.ttf
+          weight: 500
+        - asset: assets/font/Roboto_Condensed-SemiBold.ttf
+          weight: 600
+        - asset: assets/font/Roboto_Condensed-SemiBoldItalic.ttf
+          weight: 800

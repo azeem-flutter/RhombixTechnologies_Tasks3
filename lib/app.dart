@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trailmate/core/theme/theme.dart';
 import 'package:trailmate/views/auth/screens/onboarding/onboarding_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -9,7 +10,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'TrailMate',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
+
+      theme: TAppTheme.lightTheme,
+      darkTheme: TAppTheme.darkTheme,
       home: const OnboardingScreen(),
     );
   }

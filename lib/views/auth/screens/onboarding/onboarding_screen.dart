@@ -17,18 +17,21 @@ class OnboardingScreen extends StatelessWidget {
             children: const [
               OnboardingPage(
                 image: 'assets/images/camp.jpg',
-                title: 'Welcome to TrailMate',
-                subTitle: 'Your adventure starts here',
+                title: 'Plan Your Escape',
+                subTitle:
+                    'Discover remote campsites and plan your route with precision.',
               ),
               OnboardingPage(
                 image: 'assets/images/firecamp.jpg',
-                title: 'Explore New Trails',
-                subTitle: 'Discover hidden gems in nature',
+                title: 'AI Smart Packing',
+                subTitle:
+                    'Never forget a tent stake again. Our AI generates tailored lists based on weather',
               ),
               OnboardingPage(
                 image: 'assets/images/forest.jpg',
-                title: 'Connect with Nature',
-                subTitle: 'Experience the great outdoors',
+                title: 'Survival Ready',
+                subTitle:
+                    'Learn expert techniques and get assistance in the wild, even offline.',
               ),
             ],
           ),

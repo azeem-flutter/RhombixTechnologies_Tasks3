@@ -49,7 +49,9 @@ class OnboardingPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
             title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         const SizedBox(height: 20),
@@ -58,7 +60,9 @@ class OnboardingPage extends StatelessWidget {
           child: Text(
             subTitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.normal),
           ),
         ),
       ],
