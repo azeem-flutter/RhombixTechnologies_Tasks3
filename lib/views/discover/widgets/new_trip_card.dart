@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:trailmate/views/trip/trip_create_form.dart';
 
 class NewTripCard extends StatelessWidget {
   @override
@@ -21,9 +23,7 @@ class NewTripCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {
-            // Navigate to create trip screen
-          },
+          onTap: () => Get.to(const TripCreateForm()),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

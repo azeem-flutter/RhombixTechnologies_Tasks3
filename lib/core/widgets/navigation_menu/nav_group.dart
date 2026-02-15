@@ -22,19 +22,25 @@ class NavGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(items.length, (i) {
-        final index = i + offset;
-        final isSelected = selectedIndex == index;
+    return Expanded(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(items.length, (i) {
+          final index = i + offset;
+          final isSelected = selectedIndex == index;
 
-        return NavButton(
-          item: items[i],
-          isSelected: isSelected,
-          activeColor: activeColor,
-          inactiveColor: inactiveColor,
-          onTap: () => onTap(i),
-        );
-      }),
+          return Expanded(
+            child: NavButton(
+              item: items[i],
+              isSelected: isSelected,
+              activeColor: activeColor,
+              inactiveColor: inactiveColor,
+              onTap: () => onTap(i),
+            ),
+          );
+        }),
+      ),
     );
   }
 }

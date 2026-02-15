@@ -14,7 +14,7 @@ class NavigationMenu extends StatelessWidget {
     DiscoverScreen(),
     PlaceholderPage(title: 'My Trips'),
     PlaceholderPage(title: 'Create'),
-    PlaceholderPage(title: 'Handbook'),
+    PlaceholderPage(title: 'book'),
     PlaceholderPage(title: 'Profile'),
   ];
 
@@ -24,7 +24,7 @@ class NavigationMenu extends StatelessWidget {
   ];
 
   final List<NavItem> rightItems = const [
-    NavItem(label: 'Handbook', icon: Icons.menu_book_outlined),
+    NavItem(label: 'book', icon: Icons.menu_book_outlined),
     NavItem(label: 'Profile', icon: Icons.person_outline),
   ];
 
@@ -56,8 +56,8 @@ class NavigationMenu extends StatelessWidget {
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
           notchMargin: 8,
-          height: 74,
-          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
+          height: 70,
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -69,7 +69,7 @@ class NavigationMenu extends StatelessWidget {
                 onTap: (i) => controller.changeIndex(i),
                 offset: 0,
               ),
-              const SizedBox(width: 56),
+              const SizedBox(width: 40),
               NavGroup(
                 items: rightItems,
                 selectedIndex: index,

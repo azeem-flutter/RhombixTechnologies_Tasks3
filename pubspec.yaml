@@ -15,6 +15,10 @@ dependencies:
   # State Management, Navigation & Dependency Injection
   get: ^4.6.6
   smooth_page_indicator: ^2.0.1
+  # packages
+  image_picker: ^1.0.0
+  dotted_border: ^2.1.0
+
   # Local Storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -34,7 +38,7 @@ dependencies:
   permission_handler: ^11.2.0
   
   # Local Notifications
-  flutter_local_notifications: ^16.3.2
+  flutter_local_notifications: ^17.0.0
   
   # UI Components & Animations
   flutter_svg: ^2.0.9
