@@ -49,7 +49,8 @@ class LoginScreen extends StatelessWidget {
                 Text(
                   'Password',
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: const Color.fromARGB(255, 107, 107, 107),
+                    color: const Color.fromARGB(255, 107, 107, 107)
+                    ,
                     fontWeight: FontWeight.bold,
                     fontSize: 13,
                   ),

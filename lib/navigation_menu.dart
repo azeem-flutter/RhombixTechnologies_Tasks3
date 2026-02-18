@@ -4,6 +4,7 @@ import 'package:trailmate/core/widgets/navigation_menu/nav_group.dart';
 import 'package:trailmate/core/widgets/navigation_menu/nav_item.dart';
 import 'package:trailmate/core/widgets/navigation_menu/place_holder_page.dart';
 import 'package:trailmate/views/discover/discover.dart';
+import 'package:trailmate/views/survival/screens/survival_screen.dart';
 
 class NavigationMenu extends StatelessWidget {
   NavigationMenu({super.key});
@@ -14,7 +15,7 @@ class NavigationMenu extends StatelessWidget {
     DiscoverScreen(),
     PlaceholderPage(title: 'My Trips'),
     PlaceholderPage(title: 'Create'),
-    PlaceholderPage(title: 'book'),
+    SurvivalScreen(),
     PlaceholderPage(title: 'Profile'),
   ];
 
@@ -24,7 +25,7 @@ class NavigationMenu extends StatelessWidget {
   ];
 
   final List<NavItem> rightItems = const [
-    NavItem(label: 'book', icon: Icons.menu_book_outlined),
+    NavItem(label: 'Survival', icon: Icons.health_and_safety_outlined),
     NavItem(label: 'Profile', icon: Icons.person_outline),
   ];
 

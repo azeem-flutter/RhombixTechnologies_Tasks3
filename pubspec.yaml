@@ -42,6 +42,7 @@ dependencies:
   
   # UI Components & Animations
   flutter_svg: ^2.0.9
+  video_player: ^2.9.2
   cached_network_image: ^3.3.1
   shimmer: ^3.0.0
   lottie: ^3.0.0
