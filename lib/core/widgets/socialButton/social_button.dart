@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SocialButton extends StatelessWidget {
-  const SocialButton({super.key});
+  final VoidCallback? onPressed;
+
+  const SocialButton({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +11,7 @@ class SocialButton extends StatelessWidget {
       width: double.infinity,
 
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         child: const Text('Continue with Google'),
       ),
     );

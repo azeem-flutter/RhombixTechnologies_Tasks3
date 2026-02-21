@@ -18,6 +18,11 @@ dependencies:
   # packages
   image_picker: ^1.0.0
   dotted_border: ^2.1.0
+  # firebase packages
+  firebase_core: ^4.4.0
+  firebase_auth: ^6.1.4
+  cloud_firestore: ^6.1.2
+  google_sign_in: ^6.2.1
 
   # Local Storage
   hive: ^2.2.3

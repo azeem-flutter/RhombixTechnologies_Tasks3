@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trailmate/models/Trip/trip_model.dart';
-import 'package:trailmate/views/trip/trip_detail_screen.dart';
+import 'package:trailmate/routes/app_routes.dart';
 
 class TripCard extends StatelessWidget {
   final TripModel trip;
@@ -13,11 +13,7 @@ class TripCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(
-        TripDetailScreen(trip: trip),
-        transition: Transition.rightToLeft,
-        duration: const Duration(milliseconds: 300),
-      ),
+      onTap: () => Get.toNamed(AppRoutes.tripDetail, arguments: trip),
       child: Container(
         width: 280, // Fixed width for each card
         margin: const EdgeInsets.only(right: 16), // Space between cards

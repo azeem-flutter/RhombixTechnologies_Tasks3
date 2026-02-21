@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:trailmate/views/ai_chat/ai_chat_screen.dart';
+import 'package:trailmate/routes/app_routes.dart';
 
 class AiCard extends StatefulWidget {
   const AiCard({super.key});
@@ -38,7 +38,7 @@ class _AiCardState extends State<AiCard> with SingleTickerProviderStateMixin {
         onTapDown: (_) => setState(() => isHover = true),
         onTapUp: (_) => setState(() => isHover = false),
         onTapCancel: () => setState(() => isHover = false),
-        onTap: () => Get.to(const AiChatScreen()),
+        onTap: () => Get.toNamed(AppRoutes.aiChat),
         child: AnimatedScale(
           scale: isHover ? 1.03 : 1.0,
           duration: const Duration(milliseconds: 200),

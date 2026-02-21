@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:trailmate/models/Trip/trip_model.dart';
 import 'package:trailmate/views/trip/widgets/itinerary_section.dart';
+import 'package:trailmate/views/trip/widgets/packing_section.dart';
 import 'package:trailmate/views/trip/widgets/trip_action_button.dart';
 import 'package:trailmate/views/trip/widgets/trip_hero_image.dart';
 import 'package:trailmate/views/trip/widgets/trip_info_section.dart';
@@ -79,6 +80,10 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
 
                 // Action Buttons (removed Edit Trip)
                 const TripActionButtons(),
+
+                const SizedBox(height: 24),
+
+                PackingSection(trip: widget.trip),
 
                 const SizedBox(height: 32),
 

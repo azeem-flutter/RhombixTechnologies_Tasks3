@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:trailmate/views/auth/login/login.dart';
+import 'package:trailmate/routes/app_routes.dart';
 
 class OnboardingSkipbutton extends StatelessWidget {
   const OnboardingSkipbutton({super.key});
@@ -14,7 +14,7 @@ class OnboardingSkipbutton extends StatelessWidget {
         style: TextButton.styleFrom(
           backgroundColor: Colors.grey.withAlpha(200),
         ),
-        onPressed: () => Get.to(const LoginScreen()),
+        onPressed: () => Get.toNamed(AppRoutes.login),
         child: const Text('Skip', style: TextStyle(color: Colors.black)),
       ),
     );
