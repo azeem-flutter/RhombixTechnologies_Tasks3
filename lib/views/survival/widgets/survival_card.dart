@@ -100,17 +100,6 @@ class _SurvivalCardState extends State<SurvivalCard> {
                           ),
                         ),
                       ),
-                      const Center(
-                        child: CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Colors.black54,
-                          child: Icon(
-                            Icons.play_arrow_rounded,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

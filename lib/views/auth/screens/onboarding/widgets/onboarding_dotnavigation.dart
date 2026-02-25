@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingDotnavigation extends StatelessWidget {
-  const OnboardingDotnavigation({super.key});
+  final PageController controller;
+
+  const OnboardingDotnavigation({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-        child: SmoothPageIndicator(
-          controller: PageController(),
-          count: 3,
-          effect: const ExpandingDotsEffect(
-            dotHeight: 6,
-            dotColor: Colors.grey,
-            activeDotColor: Colors.deepOrangeAccent,
-          ),
-        ),
+    return SmoothPageIndicator(
+      controller: controller,
+      count: 3,
+      effect: ExpandingDotsEffect(
+        dotHeight: 8,
+        dotWidth: 8,
+        spacing: 6,
+        expansionFactor: 2.8,
+        dotColor: Colors.grey.shade300,
+        activeDotColor: const Color(0xFF1F5A2E),
       ),
     );
   }

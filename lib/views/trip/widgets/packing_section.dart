@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trailmate/models/Trip/trip_model.dart';
+import 'package:trailmate/models/Trip/trip_models.dart';
 import 'package:trailmate/views/packing/screens/ai_packing_screen.dart';
 
 class PackingSection extends StatelessWidget {
-  final TripModel trip;
+  final TripModels trip;
 
   const PackingSection({super.key, required this.trip});
 
@@ -66,7 +66,7 @@ class PackingSection extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '${trip.packingList.length} items ready',
+                  'Generate smart list for ${trip.location}',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF1F5A2E),

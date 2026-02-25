@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
-      initialRoute: AppRoutes.onboarding,
+      initialRoute: AppRoutes.splash,
       getPages: AppPages.pages,
       initialBinding: Initialbinding(),
     );

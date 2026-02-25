@@ -14,6 +14,11 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
     final authController = AuthController.instance;
+
+    if (authController.currentUser.value != null) {
+      Future.microtask(() => Get.offAllNamed(AppRoutes.navigation));
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

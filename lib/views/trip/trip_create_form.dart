@@ -1,127 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:trailmate/models/location_data.dart';
-import 'package:trailmate/views/map/location_picker_screen.dart';
+import 'package:get/get.dart';
+import 'package:trailmate/controllers/trip/trip_controller.dart';
 import 'package:trailmate/views/trip/widgets/add_photo_section.dart';
 
-class TripCreateForm extends StatefulWidget {
-  const TripCreateForm({super.key});
+class TripCreateForm extends StatelessWidget {
+  TripCreateForm({super.key});
 
-  @override
-  State<TripCreateForm> createState() => _TripCreateFormState();
-}
-
-class _TripCreateFormState extends State<TripCreateForm> {
-  final TextEditingController _tripNameController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _startDateController = TextEditingController();
-  final TextEditingController _endDateController = TextEditingController();
-  LocationData? _selectedLocation;
-  DateTime? _startDate;
-  DateTime? _endDate;
-
-  // Trip type selection
-  String _selectedTripType = 'Camping';
-  final List<String> _tripTypes = [
-    'Hiking',
-    'Camping',
-    'Fishing',
-    'Climbing',
-    'Biking',
-  ];
-
-  // Generate AI packing list toggle
-  bool _generatePackingList = true;
-
-  // for group trips - total members
-  int _totalMembers = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize default text for date fields
-    _startDateController.text = '';
-    _endDateController.text = '';
-    _totalMembers = 1; // Default to 1 member for solo trips
-  }
-
-  @override
-  void dispose() {
-    _tripNameController.dispose();
-    _locationController.dispose();
-    _startDateController.dispose();
-    _endDateController.dispose();
-    super.dispose();
-  }
-
-  /// Opens location picker screen and handles result
-  Future<void> _openLocationPicker() async {
-    final result = await Navigator.push<LocationData>(
-      context,
-      MaterialPageRoute(builder: (context) => const LocationPickerScreen()),
-    );
-
-    if (result != null && mounted) {
-      setState(() {
-        _selectedLocation = result;
-        _locationController.text = result.address;
-      });
-    }
-  }
-
-  // Start Date Picker
-  void _pickStartDate() {
-    final now = DateTime.now();
-    showDatePicker(
-      context: context,
-      initialDate: _startDate ?? now,
-      firstDate: now,
-      lastDate: DateTime(2100),
-    ).then((pickerDate) {
-      if (pickerDate != null && mounted) {
-        setState(() {
-          _startDate = pickerDate;
-          _startDateController.text =
-              '${pickerDate.day.toString()}/${pickerDate.month.toString().padLeft(2, '0')}/${pickerDate.year}';
-        });
-      }
-    });
-  }
-
-  // End Date Picker
-  void _pickEndDate() {
-    final now = DateTime.now();
-    final startDate = _startDate ?? now;
-    showDatePicker(
-      context: context,
-      initialDate: _endDate ?? startDate,
-      firstDate: startDate,
-      lastDate: DateTime(2100),
-    ).then((pickerDate) {
-      if (pickerDate != null && mounted) {
-        setState(() {
-          _endDate = pickerDate;
-          _endDateController.text =
-              '${pickerDate.day.toString()}/${pickerDate.month.toString().padLeft(2, '0')}/${pickerDate.year}';
-        });
-      }
-    });
-  }
-
-  // Total Members Increment
-  void _incrementMembers() {
-    setState(() {
-      _totalMembers++;
-    });
-  }
-
-  // Total Members Decrement
-  void _decrementMembers() {
-    if (_totalMembers > 1) {
-      setState(() {
-        _totalMembers--;
-      });
-    }
-  }
+  final TripController controller = Get.isRegistered<TripController>()
+      ? Get.find<TripController>()
+      : Get.put(TripController());
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +41,7 @@ class _TripCreateFormState extends State<TripCreateForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Add Photo Section
-                    const AddPhotoSection(),
+                    AddPhotoSection(),
 
                     // Trip Name Field
                     const SizedBox(height: 20),
@@ -168,7 +55,7 @@ class _TripCreateFormState extends State<TripCreateForm> {
                     ),
                     const SizedBox(height: 7),
                     TextFormField(
-                      controller: _tripNameController,
+                      controller: controller.tripTitleController,
                       decoration: const InputDecoration(
                         hintText: 'e.g. Summer Camp 2026',
                         prefixIcon: Icon(Icons.edit_outlined),
@@ -187,13 +74,10 @@ class _TripCreateFormState extends State<TripCreateForm> {
                     ),
                     const SizedBox(height: 7),
                     TextFormField(
-                      controller: _locationController,
-                      readOnly: true,
-                      onTap: _openLocationPicker,
+                      controller: controller.locationController,
                       decoration: const InputDecoration(
-                        hintText: 'Search destination...',
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: Icon(Icons.arrow_forward_ios, size: 16),
+                        hintText: 'Enter destination...',
+                        prefixIcon: Icon(Icons.location_on_outlined),
                       ),
                     ),
 
@@ -222,9 +106,9 @@ class _TripCreateFormState extends State<TripCreateForm> {
                               ),
                               const SizedBox(height: 7),
                               TextFormField(
-                                controller: _startDateController,
+                                controller: controller.startDateController,
                                 readOnly: true,
-                                onTap: _pickStartDate,
+                                onTap: () => controller.pickStartDate(context),
                                 decoration: const InputDecoration(
                                   hintText: 'dd/mm/yyyy',
                                   suffixIcon: Icon(
@@ -257,9 +141,9 @@ class _TripCreateFormState extends State<TripCreateForm> {
                               ),
                               const SizedBox(height: 7),
                               TextFormField(
-                                controller: _endDateController,
+                                controller: controller.endDateController,
                                 readOnly: true,
-                                onTap: _pickEndDate,
+                                onTap: () => controller.pickEndDate(context),
                                 decoration: const InputDecoration(
                                   hintText: 'dd/mm/yyyy',
                                   suffixIcon: Icon(
@@ -288,23 +172,25 @@ class _TripCreateFormState extends State<TripCreateForm> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton.filled(
-                          onPressed: _decrementMembers,
+                          onPressed: controller.decrementMembers,
                           style: IconButton.styleFrom(
                             backgroundColor: const Color(0xFF1F5A2E),
                             foregroundColor: Colors.white,
                           ),
                           icon: const Icon(Icons.remove),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Text(
-                            '$_totalMembers Members',
-                            style: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                        Obx(
+                          () => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Text(
+                              '${controller.totalMembers.value} Members',
+                              style: Theme.of(context).textTheme.headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                         IconButton.filled(
-                          onPressed: _incrementMembers,
+                          onPressed: controller.incrementMembers,
                           style: IconButton.styleFrom(
                             backgroundColor: const Color(0xFF1F5A2E),
                             foregroundColor: Colors.white,
@@ -328,39 +214,40 @@ class _TripCreateFormState extends State<TripCreateForm> {
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children: _tripTypes.map((type) {
-                        final isSelected = _selectedTripType == type;
-                        return FilterChip(
-                          label: Text(
-                            type,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: isSelected
-                                      ? Colors.white
-                                      : Colors.black87,
-                                ),
-                          ),
-                          selected: isSelected,
-                          onSelected: (selected) {
-                            setState(() {
-                              _selectedTripType = type;
-                            });
-                          },
-                          backgroundColor: Colors.white,
-                          selectedColor: const Color(0xFF1F5A2E),
-                          labelStyle: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black87,
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                          side: BorderSide(
-                            color: isSelected
-                                ? const Color(0xFF1F5A2E)
-                                : Colors.grey[300]!,
-                          ),
-                          showCheckmark: false,
-                        );
+                      children: controller.tripTypes.map((type) {
+                        return Obx(() {
+                          final isSelected =
+                              controller.selectedTripType.value == type;
+                          return FilterChip(
+                            label: Text(
+                              type,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black87,
+                                  ),
+                            ),
+                            selected: isSelected,
+                            onSelected: (selected) {
+                              controller.selectedTripType.value = type;
+                            },
+                            backgroundColor: Colors.white,
+                            selectedColor: const Color(0xFF1F5A2E),
+                            labelStyle: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black87,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                            side: BorderSide(
+                              color: isSelected
+                                  ? const Color(0xFF1F5A2E)
+                                  : Colors.grey[300]!,
+                            ),
+                            showCheckmark: false,
+                          );
+                        });
                       }).toList(),
                     ),
 
@@ -396,14 +283,14 @@ class _TripCreateFormState extends State<TripCreateForm> {
                               ],
                             ),
                           ),
-                          Switch(
-                            value: _generatePackingList,
-                            onChanged: (value) {
-                              setState(() {
-                                _generatePackingList = value;
-                              });
-                            },
-                            activeThumbColor: const Color(0xFF1F5A2E),
+                          Obx(
+                            () => Switch(
+                              value: controller.aiPackingEnabled.value,
+                              onChanged: (value) {
+                                controller.aiPackingEnabled.value = value;
+                              },
+                              activeThumbColor: const Color(0xFF1F5A2E),
+                            ),
                           ),
                         ],
                       ),
@@ -413,11 +300,22 @@ class _TripCreateFormState extends State<TripCreateForm> {
 
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Handle trip creation logic here
-                        },
-                        child: const Text('Create Trip'),
+                      child: Obx(
+                        () => ElevatedButton(
+                          onPressed: controller.isSaving.value
+                              ? null
+                              : controller.createTrip,
+                          child: controller.isSaving.value
+                              ? const SizedBox(
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Text('Create Trip'),
+                        ),
                       ),
                     ),
                   ],

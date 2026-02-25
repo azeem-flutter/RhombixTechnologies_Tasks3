@@ -1,14 +1,17 @@
 // lib/views/trip_detail/widgets/trip_info_section.dart
 import 'package:flutter/material.dart';
-import 'package:trailmate/models/Trip/trip_model.dart';
+import 'package:trailmate/models/Trip/trip_models.dart';
 
 class TripInfoSection extends StatelessWidget {
-  final TripModel trip;
+  final TripModels trip;
 
   const TripInfoSection({super.key, required this.trip});
 
   @override
   Widget build(BuildContext context) {
+    final durationDays = trip.endDate.difference(trip.startDate).inDays + 1;
+    final safeDurationDays = durationDays < 1 ? 1 : durationDays;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       padding: const EdgeInsets.all(24),
@@ -81,7 +84,7 @@ class TripInfoSection extends StatelessWidget {
                         ),
                       ),
                     Text(
-                      trip.title,
+                      trip.tripTitle,
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(
                             fontWeight: FontWeight.bold,
@@ -148,7 +151,7 @@ class TripInfoSection extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Mountain Hiking',
+                        trip.tripType.isEmpty ? 'Trip' : trip.tripType,
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(
                               color: Colors.white,
@@ -176,7 +179,9 @@ class TripInfoSection extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        'Moderate',
+                        trip.difficultyLevel.isEmpty
+                            ? 'Easy'
+                            : trip.difficultyLevel,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -207,7 +212,7 @@ class TripInfoSection extends StatelessWidget {
             iconColor: const Color(0xFF6C5CE7),
             label: 'Date & Duration',
             value:
-                '${trip.date.day}/${trip.date.month}/${trip.date.year} • 3 Days',
+                '${trip.startDate.day}/${trip.startDate.month}/${trip.startDate.year} - ${trip.endDate.day}/${trip.endDate.month}/${trip.endDate.year} • $safeDurationDays Days',
           ),
         ],
       ),

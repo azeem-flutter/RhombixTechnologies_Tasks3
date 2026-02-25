@@ -1,6 +1,7 @@
 class AppRoutes {
   AppRoutes._();
 
+  static const splash = '/splash';
   static const onboarding = '/';
   static const login = '/login';
   static const signup = '/signup';
@@ -11,4 +12,5 @@ class AppRoutes {
   static const aiPacking = '/packing/ai';
   static const myTrips = '/trips';
   static const profile = '/profile';
+  static const favorites = '/favorites';
 }

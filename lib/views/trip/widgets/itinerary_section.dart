@@ -75,18 +75,70 @@ class ItinerarySection extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // Activities List
-          ...activities.asMap().entries.map((entry) {
-            final index = entry.key;
-            final activity = entry.value;
-            final isLast = index == activities.length - 1;
+          if (activities.isEmpty)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: const Color(0xFF667EEA).withAlpha(30),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF667EEA).withAlpha(15),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF667EEA).withAlpha(20),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.event_note_rounded,
+                      color: Color(0xFF667EEA),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'No activity added yet',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF1A1F36),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Start building your trip timeline by adding your first activity.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey.shade600,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            ...activities.asMap().entries.map((entry) {
+              final index = entry.key;
+              final activity = entry.value;
+              final isLast = index == activities.length - 1;
 
-            return _ActivityItem(
-              activity: activity,
-              isLast: isLast,
-              onDelete: () => onDeleteActivity(index),
-            );
-          }),
+              return _ActivityItem(
+                activity: activity,
+                isLast: isLast,
+                onDelete: () => onDeleteActivity(index),
+              );
+            }),
 
           const SizedBox(height: 16),
 

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../models/survival/survival_tip_model.dart';
 import '../widgets/section_title.dart';
-import '../widgets/video_player_card.dart';
 
 class SurvivalDetailScreen extends StatelessWidget {
   const SurvivalDetailScreen({
@@ -114,10 +113,32 @@ class SurvivalDetailScreen extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // ── Video ──────────────────────────────────────────────
-                  const SectionTitle(title: 'Watch Guide'),
+                  // ── Safety Note ────────────────────────────────────────
+                  const SectionTitle(title: 'Safety Note'),
                   const SizedBox(height: 12),
-                  VideoPlayerCard(videoUrl: tip.videoUrl),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      tip.description,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        height: 1.6,
+                        color: Color(0xFF2D6A4F),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

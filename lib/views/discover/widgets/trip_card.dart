@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:trailmate/models/Trip/trip_model.dart';
+import 'package:trailmate/models/Trip/trip_models.dart';
 import 'package:trailmate/routes/app_routes.dart';
 
 class TripCard extends StatelessWidget {
-  final TripModel trip;
+  final TripModels trip;
 
   const TripCard({super.key, required this.trip});
 
@@ -113,7 +111,7 @@ class TripCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    trip.title,
+                    trip.tripTitle,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -132,7 +130,7 @@ class TripCard extends StatelessWidget {
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
-                          '${trip.date.day}/${trip.date.month}/${trip.date.year}',
+                          '${trip.startDate.day}/${trip.startDate.month}/${trip.startDate.year}',
                           style: Theme.of(
                             context,
                           ).textTheme.bodyLarge?.copyWith(fontSize: 12),

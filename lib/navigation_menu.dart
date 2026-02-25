@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trailmate/controllers/trip/favorite_trip_controller.dart';
+import 'package:trailmate/controllers/trip/trip_controller.dart';
 import 'package:trailmate/core/widgets/navigation_menu/nav_group.dart';
 import 'package:trailmate/core/widgets/navigation_menu/nav_item.dart';
 import 'package:trailmate/core/widgets/navigation_menu/place_holder_page.dart';
-import 'package:trailmate/data/mock_trips.dart';
 import 'package:trailmate/views/discover/discover.dart';
 import 'package:trailmate/views/mytrip/screens/my_trips_screen.dart';
 import 'package:trailmate/views/profile/screens/profile_screen.dart';
 import 'package:trailmate/views/survival/screens/survival_screen.dart';
 
 class NavigationMenu extends StatelessWidget {
-  NavigationMenu({super.key});
+  NavigationMenu({super.key}) {
+    Get.put(TripController(), permanent: true);
+    Get.put(FavoriteTripController(), permanent: true);
+  }
 
   final controller = Get.put(NavigationController());
-
   final List<Widget> pages = [
     const DiscoverScreen(),
-    MyTripsScreen(trips: mockTrips),
+    const MyTripsScreen(),
     const PlaceholderPage(title: 'Create'),
     const SurvivalScreen(),
     const ProfileScreen(),

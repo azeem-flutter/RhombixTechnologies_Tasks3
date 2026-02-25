@@ -1,11 +1,14 @@
 // lib/views/trip_detail/widgets/trip_hero_image.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trailmate/controllers/trip/favorite_trip_controller.dart';
+import 'package:trailmate/models/Trip/trip_models.dart';
+import 'package:trailmate/routes/app_routes.dart';
 
 class TripHeroImage extends StatelessWidget {
-  final String imageUrl;
+  final TripModels trip;
 
-  const TripHeroImage({super.key, required this.imageUrl});
+  const TripHeroImage({super.key, required this.trip});
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +55,24 @@ class TripHeroImage extends StatelessWidget {
                 ),
               ],
             ),
-            child: IconButton(
-              icon: const Icon(
-                Icons.favorite_border,
-                color: Color(0xFFFF6B9D),
-                size: 22,
-              ),
-              onPressed: () {},
+            child: GetX<FavoriteTripController>(
+              init: Get.isRegistered<FavoriteTripController>()
+                  ? Get.find<FavoriteTripController>()
+                  : Get.put(FavoriteTripController(), permanent: true),
+              builder: (controller) {
+                final isFavorite = controller.isFavorite(trip.id);
+                return IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: const Color(0xFFFF6B9D),
+                    size: 22,
+                  ),
+                  onPressed: () {
+                    controller.toggleFavorite(trip);
+                    Get.toNamed(AppRoutes.favorites);
+                  },
+                );
+              },
             ),
           ),
         ),
@@ -69,7 +83,7 @@ class TripHeroImage extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               Image.network(
-                imageUrl,
+                trip.imageUrl,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(

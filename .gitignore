@@ -52,3 +52,6 @@ key.properties
 # Temporary
 *.tmp
 *.temp
+
+# Local secrets
+.env

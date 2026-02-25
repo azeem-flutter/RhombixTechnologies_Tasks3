@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:trailmate/routes/app_routes.dart';
 
 class OnboardingSkipbutton extends StatelessWidget {
-  const OnboardingSkipbutton({super.key});
+  final VoidCallback onSkip;
+
+  const OnboardingSkipbutton({super.key, required this.onSkip});
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: kToolbarHeight,
+      top: 8,
       right: 16,
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: Colors.grey.withAlpha(200),
+          backgroundColor: Colors.white.withAlpha(228),
+          foregroundColor: const Color(0xFF1F5A2E),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         ),
-        onPressed: () => Get.toNamed(AppRoutes.login),
-        child: const Text('Skip', style: TextStyle(color: Colors.black)),
+        onPressed: onSkip,
+        child: const Text(
+          'Skip',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
       ),
     );
   }

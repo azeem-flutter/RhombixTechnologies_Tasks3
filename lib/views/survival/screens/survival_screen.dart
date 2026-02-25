@@ -51,8 +51,13 @@ class _SurvivalScreenState extends State<SurvivalScreen> {
             builder: (context, _) {
               final tips = _controller.filteredTips;
               final width = MediaQuery.of(context).size.width;
-              final itemWidth = (width - 16 * 2 - 12) / 2;
-              final itemHeight = itemWidth * 1.28;
+              final isCompact = width < 380;
+              final crossAxisCount = isCompact ? 1 : 2;
+              final itemWidth =
+                  (width - 16 * 2 - (crossAxisCount - 1) * 12) / crossAxisCount;
+              final itemHeight = isCompact
+                  ? itemWidth * 0.72
+                  : itemWidth * 1.28;
               final childAspectRatio = itemWidth / itemHeight;
 
               return Column(
@@ -93,7 +98,7 @@ class _SurvivalScreenState extends State<SurvivalScreen> {
                             padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
+                                  crossAxisCount: crossAxisCount,
                                   crossAxisSpacing: 12,
                                   mainAxisSpacing: 12,
                                   childAspectRatio: childAspectRatio,

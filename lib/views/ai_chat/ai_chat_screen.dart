@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trailmate/services/trip_chat_service.dart';
 import 'widgets/message.dart';
 import 'widgets/message_bubble.dart';
 import 'widgets/typing_indicator.dart';
@@ -12,8 +13,14 @@ class AiChatScreen extends StatefulWidget {
 }
 
 class _AiChatScreenState extends State<AiChatScreen> {
+  final TripChatService _tripChatService = TripChatService();
+
   final List<Message> _messages = [
-    Message(text: 'Hello! How can I assist you today? 👋', isUser: false),
+    Message(
+      text:
+          'Hi! I am your trip assistant. Ask me only trip-related questions like destination, itinerary, budget, weather, packing, or safety. ✈️',
+      isUser: false,
+    ),
   ];
 
   final TextEditingController _textController = TextEditingController();
@@ -37,40 +44,39 @@ class _AiChatScreenState extends State<AiChatScreen> {
     });
 
     _scrollToBottom();
-    _simulateAiResponse(text);
+    _fetchAiResponse(text);
   }
 
-  void _simulateAiResponse(String userMessage) {
+  Future<void> _fetchAiResponse(String userMessage) async {
     setState(() => _isTyping = true);
 
-    // Simulate AI thinking time
-    Future.delayed(const Duration(seconds: 2), () {
-      if (!mounted) return;
+    try {
+      final response = await _tripChatService.ask(userMessage);
 
-      String response = _generateResponse(userMessage);
+      if (!mounted) {
+        return;
+      }
 
       setState(() {
         _isTyping = false;
         _messages.add(Message(text: response, isUser: false));
       });
-
       _scrollToBottom();
-    });
-  }
-
-  String _generateResponse(String userMessage) {
-    final lowerMsg = userMessage.toLowerCase();
-
-    if (lowerMsg.contains('trail') || lowerMsg.contains('hike')) {
-      return 'I recommend checking out the Appalachian Trail and the Pacific Crest Trail. They offer stunning views and great hiking experiences! 🏔️';
-    } else if (lowerMsg.contains('weather')) {
-      return 'For accurate weather information, please check your local forecast. Always be prepared for changing conditions on the trail! ⛅';
-    } else if (lowerMsg.contains('gear') || lowerMsg.contains('equipment')) {
-      return 'Essential hiking gear includes proper footwear, water, navigation tools, first aid kit, and appropriate clothing layers. Would you like specific recommendations? 🎒';
-    } else if (lowerMsg.contains('safety')) {
-      return 'Trail safety is paramount! Always let someone know your plans, carry essentials, stay on marked trails, and be aware of your surroundings. 🛡️';
-    } else {
-      return 'That\'s an interesting question! I\'m here to help with trail recommendations, hiking tips, gear advice, and safety information. What would you like to know more about? 🤔';
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isTyping = false;
+        _messages.add(
+          Message(
+            text:
+                'I can help only with trip-related questions right now. Please ask about destination, itinerary, budget, weather, packing, or safety.',
+            isUser: false,
+          ),
+        );
+      });
+      _scrollToBottom();
     }
   }
 
@@ -113,7 +119,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'AI Assistant',
+                  'Trip Assistant',
                   style: TextStyle(
                     color: Colors.black87,
                     fontSize: 18,
@@ -121,7 +127,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
                   ),
                 ),
                 Text(
-                  'Always here to help',
+                  'Trip-only help, no chat saved',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 12,

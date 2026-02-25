@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trailmate/controllers/auth/login_controller.dart';
 import 'package:trailmate/core/binding/initialbinding.dart';
-import 'package:trailmate/models/Trip/trip_model.dart';
+import 'package:trailmate/models/Trip/trip_models.dart';
 import 'package:trailmate/navigation_menu.dart';
 import 'package:trailmate/routes/app_routes.dart';
 import 'package:trailmate/views/ai_chat/ai_chat_screen.dart';
 import 'package:trailmate/views/auth/login/login.dart';
 import 'package:trailmate/views/auth/screens/onboarding/onboarding_screen.dart';
+import 'package:trailmate/views/auth/screens/splash/splash_screen.dart';
 import 'package:trailmate/views/auth/signup/signup.dart';
+import 'package:trailmate/views/favorite/screens/favorite_trips_screen.dart';
 import 'package:trailmate/views/mytrip/screens/my_trips_screen.dart';
 import 'package:trailmate/views/packing/screens/ai_packing_screen.dart';
 import 'package:trailmate/views/profile/screens/profile_screen.dart';
@@ -19,6 +21,7 @@ class AppPages {
   AppPages._();
 
   static final pages = <GetPage<dynamic>>[
+    GetPage(name: AppRoutes.splash, page: () => const SplashScreen()),
     GetPage(name: AppRoutes.onboarding, page: () => const OnboardingScreen()),
     GetPage(
       name: AppRoutes.login,
@@ -31,13 +34,13 @@ class AppPages {
       binding: Initialbinding(),
     ),
     GetPage(name: AppRoutes.navigation, page: () => NavigationMenu()),
-    GetPage(name: AppRoutes.tripCreate, page: () => const TripCreateForm()),
+    GetPage(name: AppRoutes.tripCreate, page: () => TripCreateForm()),
     GetPage(
       name: AppRoutes.tripDetail,
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
       page: () {
-        final trip = Get.arguments as TripModel?;
+        final trip = Get.arguments as TripModels?;
         if (trip == null) {
           return const _MissingArgsScreen(title: 'Trip not found');
         }
@@ -48,21 +51,16 @@ class AppPages {
     GetPage(
       name: AppRoutes.aiPacking,
       page: () {
-        final trip = Get.arguments as TripModel?;
+        final trip = Get.arguments as TripModels?;
         if (trip == null) {
           return const _MissingArgsScreen(title: 'Packing list unavailable');
         }
         return AiPackingScreen(trip: trip);
       },
     ),
-    GetPage(
-      name: AppRoutes.myTrips,
-      page: () {
-        final trips = Get.arguments as List<TripModel>? ?? <TripModel>[];
-        return MyTripsScreen(trips: trips);
-      },
-    ),
+    GetPage(name: AppRoutes.myTrips, page: () => const MyTripsScreen()),
     GetPage(name: AppRoutes.profile, page: () => const ProfileScreen()),
+    GetPage(name: AppRoutes.favorites, page: () => const FavoriteTripsScreen()),
   ];
 }
 
