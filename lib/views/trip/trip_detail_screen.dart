@@ -174,11 +174,6 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
 
                 // Participants Section
                 TripParticipants(
-                  participantAvatars: const [
-                    'https://i.pravatar.cc/150?img=1',
-                    'https://i.pravatar.cc/150?img=2',
-                    'https://i.pravatar.cc/150?img=3',
-                  ],
                   totalParticipants: int.tryParse(widget.trip.members) ?? 1,
                 ),
 

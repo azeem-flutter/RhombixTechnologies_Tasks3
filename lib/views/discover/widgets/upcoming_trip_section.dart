@@ -21,9 +21,27 @@ class UpcomingTripSection extends StatelessWidget {
         stream: controller.userTripsStream,
         builder: (context, snapshot) {
           final trips = snapshot.data ?? <TripModels>[];
-          final upcomingTrips =
-              trips.where((trip) => !trip.endDate.isBefore(todayStart)).toList()
-                ..sort((a, b) => a.startDate.compareTo(b.startDate));
+          final upcomingTrips = trips.where((trip) {
+            final startDateOnly = DateTime(
+              trip.startDate.year,
+              trip.startDate.month,
+              trip.startDate.day,
+            );
+            final endDateOnly = DateTime(
+              trip.endDate.year,
+              trip.endDate.month,
+              trip.endDate.day,
+            );
+
+            final hasNotStarted =
+                startDateOnly.isAtSameMomentAs(todayStart) ||
+                startDateOnly.isAfter(todayStart);
+            final notExpired =
+                endDateOnly.isAtSameMomentAs(todayStart) ||
+                endDateOnly.isAfter(todayStart);
+
+            return hasNotStarted && notExpired;
+          }).toList()..sort((a, b) => a.startDate.compareTo(b.startDate));
 
           final limitedTrips = upcomingTrips.take(2).toList();
 

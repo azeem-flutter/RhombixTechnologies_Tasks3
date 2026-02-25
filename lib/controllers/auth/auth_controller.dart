@@ -11,7 +11,6 @@ class AuthController extends GetxController {
 
   final Rxn<User> currentUser = Rxn<User>();
   final RxBool isLoading = false.obs;
-  final RxString errorMessage = ''.obs;
 
   StreamSubscription<User?>? _authSub;
 
@@ -32,7 +31,6 @@ class AuthController extends GetxController {
 
   Future<User?> signIn(String email, String password) async {
     isLoading.value = true;
-    errorMessage.value = '';
     try {
       final user = await _authServices.signinWithEmailAndPassword(
         email,
@@ -41,8 +39,7 @@ class AuthController extends GetxController {
       currentUser.value = user;
       return user;
     } catch (e) {
-      errorMessage.value = _mapError(e);
-      return null;
+      throw _mapError(e);
     } finally {
       isLoading.value = false;
     }
@@ -50,7 +47,6 @@ class AuthController extends GetxController {
 
   Future<User?> signUp(String email, String password) async {
     isLoading.value = true;
-    errorMessage.value = '';
     try {
       final user = await _authServices.signupWithEmailAndPassword(
         email,
@@ -59,8 +55,7 @@ class AuthController extends GetxController {
       currentUser.value = user;
       return user;
     } catch (e) {
-      errorMessage.value = _mapError(e);
-      return null;
+      throw _mapError(e);
     } finally {
       isLoading.value = false;
     }
@@ -68,12 +63,11 @@ class AuthController extends GetxController {
 
   Future<void> signOut() async {
     isLoading.value = true;
-    errorMessage.value = '';
     try {
       await _authServices.signOut();
       currentUser.value = null;
     } catch (e) {
-      errorMessage.value = _mapError(e);
+      throw _mapError(e);
     } finally {
       isLoading.value = false;
     }
@@ -81,25 +75,29 @@ class AuthController extends GetxController {
 
   Future<UserCredential?> signInWithGoogle() async {
     isLoading.value = true;
-    errorMessage.value = '';
     try {
       final credential = await _authServices.signInWithGoogle();
       currentUser.value = credential?.user;
       return credential;
     } catch (e) {
-      errorMessage.value = _mapError(e);
-      return null;
+      throw _mapError(e);
     } finally {
       isLoading.value = false;
     }
   }
 
-  void clearError() {
-    errorMessage.value = '';
-  }
-
   String _mapError(Object e) {
     if (e is String) return e;
-    return 'An unexpected error occurred. Please try again later.';
+    if (e is FirebaseAuthException) {
+      if (e.message != null && e.message!.trim().isNotEmpty) {
+        return e.message!;
+      }
+      return e.code;
+    }
+
+    final raw = e.toString();
+    return raw.startsWith('Exception: ')
+        ? raw.replaceFirst('Exception: ', '')
+        : raw;
   }
 }

@@ -97,21 +97,6 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Obx(() {
-                  if (authController.errorMessage.value.isEmpty) {
-                    return const SizedBox.shrink();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(
-                      authController.errorMessage.value,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.red.shade700,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  );
-                }),
                 SizedBox(
                   width: double.infinity,
                   child: Obx(

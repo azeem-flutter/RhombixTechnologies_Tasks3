@@ -2,14 +2,9 @@
 import 'package:flutter/material.dart';
 
 class TripParticipants extends StatelessWidget {
-  final List<String> participantAvatars;
   final int totalParticipants;
 
-  const TripParticipants({
-    super.key,
-    required this.participantAvatars,
-    required this.totalParticipants,
-  });
+  const TripParticipants({super.key, required this.totalParticipants});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +64,7 @@ class TripParticipants extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                // Avatar Stack
+                // Stylish icon stack
                 SizedBox(
                   height: 44,
                   width: 110,
@@ -77,30 +72,34 @@ class TripParticipants extends StatelessWidget {
                     children: [
                       for (
                         int i = 0;
-                        i < participantAvatars.length && i < 3;
+                        i < (totalParticipants < 3 ? totalParticipants : 3);
                         i++
                       )
                         Positioned(
                           left: i * 30.0,
                           child: Container(
+                            width: 44,
+                            height: 44,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white, width: 3),
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF9D4EDD), Color(0xFF5A189A)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withAlpha(
-                                    38,
-                                  ), // 0.15 * 255 = 38.25 ≈ 38
+                                  color: Colors.black.withAlpha(30),
                                   blurRadius: 8,
                                   offset: const Offset(0, 2),
                                 ),
                               ],
                             ),
-                            child: CircleAvatar(
-                              radius: 22,
-                              backgroundImage: NetworkImage(
-                                participantAvatars[i],
-                              ),
+                            child: const Icon(
+                              Icons.person_rounded,
+                              color: Colors.white,
+                              size: 20,
                             ),
                           ),
                         ),

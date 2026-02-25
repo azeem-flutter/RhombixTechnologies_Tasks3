@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trailmate/models/Trip/trip_model.dart';
+import 'package:trailmate/models/Trip/packing_item.dart';
 import 'package:trailmate/models/Trip/trip_models.dart';
 import 'package:trailmate/services/ai_packing_service.dart';
 import 'package:trailmate/services/weather_service.dart';

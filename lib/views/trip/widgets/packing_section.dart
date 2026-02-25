@@ -65,14 +65,18 @@ class PackingSection extends StatelessWidget {
             const SizedBox(height: 14),
             Row(
               children: [
-                Text(
-                  'Generate smart list for ${trip.location}',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF1F5A2E),
+                Expanded(
+                  child: Text(
+                    'Generate smart list for ${trip.location}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF1F5A2E),
+                    ),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 12),
                 FilledButton.icon(
                   onPressed: () {
                     Navigator.of(context).push(

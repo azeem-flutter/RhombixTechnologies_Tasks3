@@ -5,6 +5,7 @@ import 'package:trailmate/controllers/trip/trip_controller.dart';
 import 'package:trailmate/core/widgets/navigation_menu/nav_group.dart';
 import 'package:trailmate/core/widgets/navigation_menu/nav_item.dart';
 import 'package:trailmate/core/widgets/navigation_menu/place_holder_page.dart';
+import 'package:trailmate/routes/app_routes.dart';
 import 'package:trailmate/views/discover/discover.dart';
 import 'package:trailmate/views/mytrip/screens/my_trips_screen.dart';
 import 'package:trailmate/views/profile/screens/profile_screen.dart';
@@ -53,7 +54,7 @@ class NavigationMenu extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () => controller.changeIndex(2),
+          onPressed: () => Get.toNamed(AppRoutes.tripCreate),
           backgroundColor: activeColor,
           foregroundColor: Colors.white,
           shape: const CircleBorder(),

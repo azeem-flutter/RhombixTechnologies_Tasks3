@@ -13,59 +13,70 @@ class ProfileScreen extends StatelessWidget {
     final authController = AuthController.instance;
     final tripController = Get.find<TripController>();
     final favoritesController = Get.find<FavoriteTripController>();
-
     final user = authController.currentUser.value;
     final displayName = user?.displayName?.trim().isNotEmpty == true
         ? user!.displayName!.trim()
         : (user?.email?.split('@').first ?? 'TrailMate Explorer');
+    final initials = displayName
+        .split(' ')
+        .take(2)
+        .map((w) => w.isNotEmpty ? w[0].toUpperCase() : '')
+        .join();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F8F6),
-      appBar: AppBar(title: const Text('Profile'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1F5A2E),
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: const Color(0xFFF5F8F6),
+      ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF1F5A2E), Color(0xFF2F7A44)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            const SizedBox(height: 24),
+
+            // ── Avatar ────────────────────────────────────────────
+            CircleAvatar(
+              radius: 46,
+              backgroundColor: const Color(0xFF1F5A2E),
+              child: Text(
+                initials,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF1F5A2E).withAlpha(28),
-                    blurRadius: 18,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    displayName,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Adventure profile',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: Colors.white70),
-                  ),
-                ],
               ),
             ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 14),
+
+            // ── Name ──────────────────────────────────────────────
+            Text(
+              displayName,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1A1A1A),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              user?.email ?? '',
+              style: const TextStyle(fontSize: 13, color: Colors.grey),
+            ),
+
+            const SizedBox(height: 32),
+
+            // ── Stats ─────────────────────────────────────────────
             StreamBuilder(
               stream: tripController.userTripsStream,
               builder: (context, snapshot) {
@@ -73,20 +84,20 @@ class ProfileScreen extends StatelessWidget {
                 return Row(
                   children: [
                     Expanded(
-                      child: _ProfileMetricCard(
-                        label: 'Trips',
-                        value: trips.length.toString(),
+                      child: _StatCard(
                         icon: Icons.map_outlined,
+                        value: trips.length.toString(),
+                        label: 'Trips',
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 14),
                     Expanded(
                       child: Obx(
-                        () => _ProfileMetricCard(
-                          label: 'Saved',
+                        () => _StatCard(
+                          icon: Icons.favorite_border_rounded,
                           value: favoritesController.favoriteTrips.length
                               .toString(),
-                          icon: Icons.favorite_border,
+                          label: 'Saved',
                           onTap: () => Get.toNamed(AppRoutes.favorites),
                         ),
                       ),
@@ -95,23 +106,27 @@ class ProfileScreen extends StatelessWidget {
                 );
               },
             ),
+
             const Spacer(),
+
+            // ── Sign Out ──────────────────────────────────────────
             SizedBox(
               width: double.infinity,
-              child: FilledButton.icon(
+              child: OutlinedButton.icon(
                 onPressed: () => authController.signOut(),
-                icon: const Icon(Icons.logout),
-                label: const Text('Logout'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF1F5A2E),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                icon: const Icon(Icons.logout_rounded, size: 18),
+                label: const Text('Sign Out'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red.shade400,
+                  side: BorderSide(color: Colors.red.shade300),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                 ),
               ),
             ),
+            const SizedBox(height: 8),
           ],
         ),
       ),
@@ -119,46 +134,48 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class _ProfileMetricCard extends StatelessWidget {
-  final String label;
-  final String value;
+// ─────────────────────────────────────────────────────────────────────────────
+// Stat Card
+// ─────────────────────────────────────────────────────────────────────────────
+class _StatCard extends StatelessWidget {
   final IconData icon;
+  final String value;
+  final String label;
   final VoidCallback? onTap;
 
-  const _ProfileMetricCard({
-    required this.label,
-    required this.value,
+  const _StatCard({
     required this.icon,
+    required this.value,
+    required this.label,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(12),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF1F5A2E).withAlpha(20),
-                borderRadius: BorderRadius.circular(12),
+                color: const Color(0xFF1F5A2E).withOpacity(0.08),
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: const Color(0xFF1F5A2E)),
+              child: Icon(icon, color: const Color(0xFF1F5A2E), size: 20),
             ),
             const SizedBox(width: 12),
             Column(
@@ -166,15 +183,15 @@ class _ProfileMetricCard extends StatelessWidget {
               children: [
                 Text(
                   value,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF1A1A1A),
+                  ),
                 ),
                 Text(
                   label,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.grey.shade600),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),

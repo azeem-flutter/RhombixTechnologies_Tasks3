@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trailmate/models/Trip/trip_model.dart';
+import 'package:trailmate/models/Trip/packing_item.dart';
 
 class PackingItemTile extends StatelessWidget {
   final PackingItem item;

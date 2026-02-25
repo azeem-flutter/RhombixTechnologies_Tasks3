@@ -64,10 +64,26 @@ class AuthServices {
 
       return await _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'account-exists-with-different-credential') {
-        throw 'This email already exists. Please sign in with password and link Google.';
+      switch (e.code) {
+        case 'account-exists-with-different-credential':
+          throw 'This email already exists. Please sign in with password and link Google.';
+        case 'invalid-credential':
+          throw 'Google credential is invalid. Check Firebase Google Sign-In setup and SHA keys.';
+        case 'operation-not-allowed':
+          throw 'Google Sign-In is not enabled in Firebase Authentication.';
+        case 'network-request-failed':
+          throw 'Network error during Google sign-in. Please check your connection.';
+        case 'popup-closed-by-user':
+          throw 'Google sign-in was cancelled.';
+        default:
+          throw 'Google sign-in failed: ${e.message ?? e.code}';
       }
-      throw 'Google sign-in failed. Please try again.';
+    } catch (e) {
+      final raw = e.toString();
+      final cleaned = raw.startsWith('Exception: ')
+          ? raw.replaceFirst('Exception: ', '')
+          : raw;
+      throw 'Google sign-in failed: $cleaned';
     }
   }
 
